@@ -12,7 +12,6 @@ class Range_nilai extends CI_Controller{
   public function index()
   {
     $data['judul'] = 'Range Nilai';
-    $data['kriterias'] = $this->get_kriteria();
     $data['isinya'] = $this->get_all_range();
     $data['mode'] = 'tambah';
     $this->load->view(HEADER, $data);
@@ -21,18 +20,18 @@ class Range_nilai extends CI_Controller{
     $this->load->view(FOOTER);
   }
 
-  private function get_kriteria()
+  public function get_kriteria()
   {
     $this->load->model('M_kriteria','kriteria');
-    $where = ['status'=> 1];
+    $where = ['b.tahun'=> $_POST['tahun'], 'b.periode' => $_POST['periode'],'a.status'=> 1];
     $data = $this->kriteria->get_kriteria(null,$where);
-    return $data;    
+    echo json_encode($data);    
   }
 
   public function get_all_range()
   {
     $this->load->model('M_kriteria','kriteria');
-    $kriteria = $this->kriteria->get_kriteria(null,['status' => 1]);
+    $kriteria = $this->kriteria->get_kriteria(null,['a.status' => 1]);
     $aktif = [];
     $nonaktif = [];
 

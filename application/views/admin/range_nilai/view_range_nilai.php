@@ -1,5 +1,8 @@
 <link rel="stylesheet" type="text/css" href="<?= base_url('vendor/') ?>app-assets/vendors/css/tables/datatable/datatables.min.css">
 <script src="<?= base_url('vendor/') ?>app-assets/vendors/js/datatable/datatables.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
+
 
 <div class="main-panel">
         <div class="main-content">
@@ -31,11 +34,20 @@
                       <form action="<?= $mode === 'tambah' ? site_url('range_nilai/insert') : site_url('range_nilai/update') ?>" method="POST">
                     <div class="form-body">
                     <div class="form-group">
+                        <label for="eventInput1">Tahun</label>
+                        <input type="text" id="eventInput1" class="form-control" name="tahun" value="">
+                    </div>
+                    <div class="form-group">
+                    <label for="eventInput1">Periode</label>
+                      <select name="periode" class="custom-select d-block w-100">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                      </select>
+                    </div>                     
+                    <div class="form-group">
                       <label for="eventInput1">Kriteria</label>
                       <select name="kriteria" id="kelamin" class="custom-select d-block w-100">
-                      <?php foreach($kriterias as $kriteria) : ?>
-                        <option <?= $mode === 'edit' && $data_edit->id_kriteria === $kriteria->id_kriteria ? 'selected' : '' ?> value="<?= $kriteria->id_kriteria ?>"><?= $kriteria->nm_kriteria ?></option>
-                      <?php endforeach; ?>
+
                       </select>
                     </div>                          
                 <div class="form-group  <?= form_error('nama_parameter') ? 'error' : '' ?>">
@@ -111,6 +123,39 @@
     </div>
 </section>
 <script>
+    $('input[name="tahun-filter"],input[name="tahun"]').datepicker({
+        format: "yyyy",
+        viewMode: "years", 
+        minViewMode: "years"
+    });
+
+    $('input[name="tahun"],select[name="periode"]').on('change',function(e){
+        const tahun = $('input[name="tahun"]').val();
+        const periode = $('select[name="periode"]').val();
+
+        $.ajax({
+            url: `<?= site_url('range_nilai/get_kriteria') ?>`,
+            type: 'POST',
+            data: {tahun,periode},
+            dataType: 'JSON',
+            success: res => {
+                if(res.length  === 0){
+                    $('#kelamin').html('');
+                    return ;
+                }
+                const id_edit = '<?= $mode === 'edit' ? $data_edit->id_kriteria : ''; ?>';
+                const mode = '<?=  $mode ?>';
+
+                let html = ``;
+                res.forEach(item => {
+                    console.log(item);
+                    html += `<option value="${item.id_kriteria}">${item.nm_kriteria}</option>`;
+                });
+
+                $('#kelamin').html(html);
+            }
+        })
+    });
     $('#tabel-aktif').DataTable({"pageLength": 5,"lengthMenu": [[5,10],[5,10]]});
 </script>
 <!--Basic Table Ends-->
