@@ -13,7 +13,13 @@ class Kriteria extends CI_Controller{
   public function index()
   {
     $data['judul'] = 'Kriteria';
-    $data['isinya'] = $this->get_all_kriteria();
+    if(!isset($_POST['tahun-filter']) && !isset($_POST['periode-filter'])){
+      $data['isinya'] = 'ehem';
+    } else{ 
+      $data['periode'] = $_POST['periode-filter'];
+      $data['tahun'] = $_POST['tahun-filter'];
+      $data['isinya'] = $this->get_all_kriteria($_POST['tahun-filter'],$_POST['periode-filter']);
+    }
     $data['mode'] = 'tambah';    
     $this->load->view(HEADER, $data);
     $this->load->view(SIDEBAR_ADMIN);
@@ -21,9 +27,10 @@ class Kriteria extends CI_Controller{
     $this->load->view(FOOTER);
   }
 
-  private function get_all_kriteria()
+  private function get_all_kriteria($tahun,$periode)
   {
-    $data = $this->kriteria->get_kriteria();
+    $where = ['b.tahun'=> $tahun, 'b.periode' => $periode];
+    $data = $this->kriteria->get_kriteria(null,$where);
     $aktif = [];
     $nonaktif = [];
 
@@ -54,7 +61,17 @@ class Kriteria extends CI_Controller{
         'field' => 'bobot',
         'label' => 'Bobot Kriteria',
         'rules' => 'trim|numeric|required'
-      )
+      ),
+      array(
+        'field' => 'periode',
+        'label' => 'Periode',
+        'rules' => 'required'
+      ),
+      array(
+        'field' => 'tahun',
+        'label' => 'Tahun',
+        'rules' => 'required'
+      ),
     );
 
     $this->form_validation->set_message('required','%s tidak boleh kosong');
@@ -73,7 +90,7 @@ class Kriteria extends CI_Controller{
       return;
     }   
 
-    $insertkan = $this->kriteria->insert_kriteria(['nm_kriteria' => $post['nama_kriteria'],'bobot' => $post['bobot'],'status' => 1,'created_at' => date('Y-m-d H:i:s')]);
+    $insertkan = $this->kriteria->insert_kriteria(['nm_kriteria' => $post['nama_kriteria'],'periode' => $post['periode'],'tahun' => $post['tahun'],'bobot' => $post['bobot'],'status' => 1,'created_at' => date('Y-m-d H:i:s')]);
 
     if($insertkan){
       $this->session->set_flashdata('success', 'Data berhasil Ditambahkan');
@@ -104,7 +121,9 @@ class Kriteria extends CI_Controller{
     }    
 
     $data['judul'] = 'kriteria';
-    $data['isinya'] = $this->get_all_kriteria();
+    $data['periode'] = $edit_data->periode;
+    $data['tahun'] = $edit_data->tahun;
+    $data['isinya'] = $this->get_all_kriteria($edit_data->tahun,$edit_data->periode);
     $data['data_edit'] = $edit_data;
     $data['mode'] = 'edit';
     $this->load->view(HEADER, $data);
@@ -116,7 +135,7 @@ class Kriteria extends CI_Controller{
   public function update()
   {
     $post = $this->input->post();
-    $data_edit = ['nm_kriteria' => $post['nama_kriteria'],'bobot' => $post['bobot'],'updated_at' => date('Y-m-d H:i:s')];
+    $data_edit = ['nm_kriteria' => $post['nama_kriteria'],'bobot' => $post['bobot'],'updated_at' => date('Y-m-d H:i:s'),'periode' => $post['periode'], 'tahun' => $post['tahun']];
     $edit_data = $this->kriteria->get_kriteria($post['id'],null);
     $rules = array(
       array(
@@ -128,7 +147,17 @@ class Kriteria extends CI_Controller{
         'field' => 'bobot',
         'label' => 'Bobot Kriteria',
         'rules' => 'trim|numeric|required'
-      )
+      ),
+      array(
+        'field' => 'periode',
+        'label' => 'Periode',
+        'rules' => 'required'
+      ),
+      array(
+        'field' => 'tahun',
+        'label' => 'Tahun',
+        'rules' => 'required'
+      ),
     );
 
     $this->form_validation->set_message('required','%s tidak boleh kosong');
@@ -138,7 +167,9 @@ class Kriteria extends CI_Controller{
     if($this->form_validation->run() === FALSE){
       $data['judul'] = 'kriteria';
       $data['data_edit'] = $edit_data;
-      $data['isinya'] = $this->get_all_kriteria();
+      $data['periode'] = $edit_data->periode;
+      $data['tahun'] = $edit_data->tahun;
+      $data['isinya'] = $this->get_all_kriteria($edit_data->tahun,$edit_data->periode);
       $data['mode'] = 'edit';
       $this->load->view(HEADER, $data);
       $this->load->view(SIDEBAR_ADMIN);
