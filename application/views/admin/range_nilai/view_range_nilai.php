@@ -33,9 +33,10 @@
                     <div class="card-block">
                       <form action="<?= $mode === 'tambah' ? site_url('range_nilai/insert') : site_url('range_nilai/update') ?>" method="POST">
                     <div class="form-body">
-                    <div class="form-group">
+                    <div class="form-group <?= form_error('tahun') ? 'error' : '' ?>">
                         <label for="eventInput1">Tahun</label>
-                        <input type="text" id="eventInput1" class="form-control" name="tahun" value="">
+                        <input type="text" id="eventInput1" class="form-control" name="tahun" value="<?= $mode === 'tambah' ? form_error('tahun') ? set_value('tahun') : '' : $data_edit->tahun ?>">
+                        <?= form_error('tahun', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>
                     </div>
                     <div class="form-group">
                     <label for="eventInput1">Periode</label>
@@ -85,6 +86,32 @@
                 </div>
                 <div class="card-body">
                     <div class="card-block">
+                    <div class="mb-3">
+                    <form action="<?= site_url('range_nilai'); ?>" method="POST">
+                      <div class="form-body">
+                      <div class="row">
+                        <div class="col-6">
+                        <div class="form-group">
+                            <label for="eventInput1">Tahun</label>
+                            <input type="text" id="eventInput1" class="form-control" name="tahun-filter" value="<?= $isinya !== 'ehem' ? $tahun : '' ?>">
+                         </div> 
+                        </div>
+                        <div class="col-6">
+                        <div class="form-group">
+                    <label for="eventInput1">Periode</label>
+                      <select name="periode-filter" id="kelamin" class="custom-select d-block w-100">
+                        <option <?= $isinya !== 'ehem' && $periode === '1' ?  'selected' : '' ?> value="1">1</option>
+                        <option <?= $isinya !== 'ehem' && $periode === '2' ?  'selected' : '' ?> value="2">2</option>
+                      </select>
+                    </div>  
+                        </div>
+                      </div>
+                        <button style="margin-bottom:0px;" type="submit" class="btn btn-primary">
+                            <i class="icon-magnifier"></i> Cari
+                        </button>
+                        </div>
+                      </form>                    
+                      </div>                    
                         <table class="table" id="tabel-aktif">
                             <thead>
                                 <tr>
@@ -94,6 +121,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php if($isinya !== 'ehem'): ?>
                                 <?php $no = 1; for($i = 0 ; count($isinya) > $i ; $i++){ ?>
                                     <tr>
                                     <td style="vertical-align : middle;line-height:100%; text-align:center;" scope="row"><?= $no++ ?></td>
@@ -111,6 +139,13 @@
                                     </tr>
 
                                 <?php } ?>
+                                <?php else: ?>
+                                    <tr>
+                                    <td colspan="3" class="text-center">Pilih periode dan tahun dulu</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <?php endif; ?>
 
 
                                 
@@ -128,8 +163,11 @@
         viewMode: "years", 
         minViewMode: "years"
     });
+    const mode = '<?=  $mode ?>';
+
 
     $('input[name="tahun"],select[name="periode"]').on('change',function(e){
+        console.log('hello');
         const tahun = $('input[name="tahun"]').val();
         const periode = $('select[name="periode"]').val();
 
@@ -144,18 +182,21 @@
                     return ;
                 }
                 const id_edit = '<?= $mode === 'edit' ? $data_edit->id_kriteria : ''; ?>';
-                const mode = '<?=  $mode ?>';
+                console.log(id_edit);
 
                 let html = ``;
                 res.forEach(item => {
-                    console.log(item);
-                    html += `<option value="${item.id_kriteria}">${item.nm_kriteria}</option>`;
+                    html += `<option class="text-capitalize" ${mode === 'edit' && id_edit == item.id_kriteria ? 'selected' : ''} value="${item.id_kriteria}">${item.nm_kriteria}</option>`;
                 });
 
                 $('#kelamin').html(html);
             }
         })
     });
+
+    if($('input[name="tahun"]').val() !== ''){
+        $('input[name="tahun"]').trigger('change');
+    }    
     $('#tabel-aktif').DataTable({"pageLength": 5,"lengthMenu": [[5,10],[5,10]]});
 </script>
 <!--Basic Table Ends-->

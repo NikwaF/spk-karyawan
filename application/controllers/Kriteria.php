@@ -14,7 +14,13 @@ class Kriteria extends CI_Controller{
   {
     $data['judul'] = 'Kriteria';
     if(!isset($_POST['tahun-filter']) && !isset($_POST['periode-filter'])){
-      $data['isinya'] = 'ehem';
+      if($this->session->flashdata('tahun') && $this->session->flashdata('periode')){
+        $data['periode'] =$this->session->flashdata('periode');
+        $data['tahun'] =  $this->session->flashdata('tahun');
+        $data['isinya'] = $this->get_all_kriteria($this->session->flashdata('tahun'),$this->session->flashdata('periode'));
+      } else{
+        $data['isinya'] = 'ehem';
+      }
     } else{ 
       $data['periode'] = $_POST['periode-filter'];
       $data['tahun'] = $_POST['tahun-filter'];
@@ -80,7 +86,7 @@ class Kriteria extends CI_Controller{
 
     if($this->form_validation->run() === FALSE){
       $data['judul'] = 'Kriteria';
-      $data['isinya'] = $this->get_all_kriteria();
+      $data['isinya'] = 'ehem';
       $data['mode'] = 'tambah';    
       $this->load->view(HEADER, $data);
       $this->load->view(SIDEBAR_ADMIN);
@@ -95,11 +101,15 @@ class Kriteria extends CI_Controller{
     if($insertkan){
       $this->session->set_flashdata('success', 'Data berhasil Ditambahkan');
       $this->session->set_flashdata('key', 'success');
+      $this->session->set_flashdata('tahun',$_POST['tahun']);
+      $this->session->set_flashdata('periode',$_POST['periode']);
       redirect('kriteria');
       return;
     } else{
       $this->session->set_flashdata('danger', 'Data berhasil Ditambahkan');
       $this->session->set_flashdata('key', 'danger');
+      $this->session->set_flashdata('tahun',$_POST['tahun']);
+      $this->session->set_flashdata('periode',$_POST['periode']);
       redirect('kriteria');
       return;
     }    
@@ -184,11 +194,15 @@ class Kriteria extends CI_Controller{
     if($updatekan){
       $this->session->set_flashdata('success', 'Data berhasil Diedit');
       $this->session->set_flashdata('key', 'success');
+      $this->session->set_flashdata('tahun',$_POST['tahun']);
+      $this->session->set_flashdata('periode',$_POST['periode']);
       redirect('kriteria');
       return;
     } else{
       $this->session->set_flashdata('danger', 'Data gagal Diedit');
       $this->session->set_flashdata('key', 'danger');
+      $this->session->set_flashdata('tahun',$_POST['tahun']);
+      $this->session->set_flashdata('periode',$_POST['periode']);
       redirect('kriteria');
       return;
     }   
@@ -202,17 +216,21 @@ class Kriteria extends CI_Controller{
       $this->session->set_flashdata('key', 'danger');
       redirect('kriteria');  
     }
-
+    $edit_data = $this->kriteria->get_kriteria($id,null);
     $updatekan = $this->kriteria->update_kriteria( $id,['status' => 0]);
 
     if($updatekan){
       $this->session->set_flashdata('danger', 'Data berhasil Dinonaktifkan');
       $this->session->set_flashdata('key', 'danger');
+      $this->session->set_flashdata('tahun',$edit_data->tahun);
+      $this->session->set_flashdata('periode',$edit_data->periode);
       redirect('kriteria');
       return;
     } else{
       $this->session->set_flashdata('warning', 'Data gagal Dinonaktifkan');
       $this->session->set_flashdata('key', 'warning');
+      $this->session->set_flashdata('tahun',$edit_data->tahun);
+      $this->session->set_flashdata('periode',$edit_data->periode);
       redirect('kriteria');
       return;
     }       
@@ -227,15 +245,20 @@ class Kriteria extends CI_Controller{
     }
 
     $updatekan = $this->kriteria->update_kriteria($id,['status' => 1]);
+    $edit_data = $this->kriteria->get_kriteria($id,null);
 
     if($updatekan){
       $this->session->set_flashdata('success', 'Data berhasil Diaktifkan');
       $this->session->set_flashdata('key', 'success');
+      $this->session->set_flashdata('tahun',$edit_data->tahun);
+      $this->session->set_flashdata('periode',$edit_data->periode);
       redirect('kriteria');
       return;
     } else{
       $this->session->set_flashdata('danger', 'Data gagal Diaktifkan');
       $this->session->set_flashdata('key', 'danger');
+      $this->session->set_flashdata('tahun',$edit_data->tahun);
+      $this->session->set_flashdata('periode',$edit_data->periode);
       redirect('kriteria');
       return;
     } 

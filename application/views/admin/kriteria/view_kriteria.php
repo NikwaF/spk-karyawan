@@ -94,8 +94,8 @@
                         <div class="form-group">
                     <label for="eventInput1">Periode</label>
                       <select name="periode-filter" id="kelamin" class="custom-select d-block w-100">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+                        <option <?= $isinya !== 'ehem' && $periode === '1' ?  'selected' : '' ?> value="1">1</option>
+                        <option <?= $isinya !== 'ehem' && $periode === '2' ?  'selected' : '' ?> value="2">2</option>
                       </select>
                     </div>    
                         </div>
