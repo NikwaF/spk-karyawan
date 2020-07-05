@@ -10,9 +10,12 @@ class Dashboard extends CI_Controller{
   
   public function hrd()
   {
-    $this->load->view(HEADER);
+    $data['judul'] = 'Dashboard Admin';
+    $data['tot_karyawan'] = $this->total_karyawan();
+    $this->load->view(HEADER, $data);
+    $this->load->view(SIDEBAR_HRD);
     $this->load->view(HRD.'dashboard');
-    $this->load->view(FOOTER);
+    $this->load->view(FOOTER);    
   }
 
   public function admin()

@@ -86,5 +86,6 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 define('HEADER', 'layout/header');
 define('FOOTER', 'layout/footer');
 define('SIDEBAR_ADMIN','layout/sidebar_admin');
+define('SIDEBAR_HRD','layout/sidebar_hrd');
 define('ADMIN', 'admin/');
 define('HRD', 'hrd/');

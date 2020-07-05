@@ -12,10 +12,18 @@
                     </div>
                     <div class="card-body">
                         <div class="card-block">                        
-                        <?php echo form_open('auth/aksi_login'); ?>
-
+                        <?php echo form_open('auth/aksi_login_admin'); ?>
                                 <div class="form-group <?= form_error('username') ? 'error' : '' ?>">
                                     <div class="col-md-12">
+                                    <?php if($this->session->flashdata('key')): ?>
+    <div class="alert alert-<?= $this->session->flashdata('key') ?> alert-dismissible fade show" role="alert">
+        <?= $this->session->flashdata($this->session->flashdata('key'));?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>   
+        
+<?php endif; ?>
                                      <div class="controls">
                                         <input type="text" class="form-control form-control-lg" autocomplete="off" name="username" id="inputUsername" placeholder="Username" value="<?= set_value('username'); ?>" >
                                         <div class="help-block">
