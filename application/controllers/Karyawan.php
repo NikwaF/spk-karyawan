@@ -95,6 +95,7 @@ class Karyawan extends CI_Controller{
 
     if($this->form_validation->run() === FALSE){
       $data['judul'] = 'Karyawan';
+      $data['isinya'] = $this->get_all_karyawan();
       $data['divisi'] = $this->get_divisi();
       $data['mode'] = 'tambah';
       $this->load->view(HEADER, $data);

@@ -13,18 +13,35 @@ class Penilaian extends CI_Controller{
   {
     $data['judul'] = 'Penilaian Karyawan';
     if(isset($_POST['tahun']) && isset($_POST['periode'])){
-      $id_periode = $this->penilaian->get_id_periode($_POST['periode'],$_POST['tahun']);
-      if($id_periode !== null){
-        $this->session->set_userdata(['tahun-nilai' => $_POST['tahun'],'periode-nilai' => $_POST['periode']]);
-        $data['karyawan'] = $this->get_karyawan();
-        $data['kriteria'] = $this->get_kriteria();
-      }
-    }  
+      $this->session->set_userdata(['tahun-nilai' => $_POST['tahun'],'periode-nilai' => $_POST['periode']]);
+      if($this->session->userdata('tahun-nilai') && $this->session->userdata('periode-nilai')){
+        $id_periode = $this->penilaian->get_id_periode();
 
-    if($this->session->userdata('tahun-nilai') && $this->session->userdata('periode-nilai')){
-      $data['karyawan'] = $this->get_karyawan();
-      $data['kriteria'] = $this->get_kriteria();
+        if($id_periode !== null){
+          $data['karyawan'] = $this->get_karyawan();
+          $data['kriteria'] = $this->get_kriteria();
+          $data['mode'] = 'bisa';
+        } else{ 
+          $data['kriteria'] = [];
+          $data['mode'] = 'ehem';
+        }
+      } 
+    } else{ 
+      if($this->session->userdata('tahun-nilai') && $this->session->userdata('periode-nilai')){
+        $id_periode = $this->penilaian->get_id_periode();
+        if($id_periode !== null){
+          $data['mode'] = 'bisa';
+          $data['karyawan'] = $this->get_karyawan();
+          $data['kriteria'] = $this->get_kriteria();
+        } else{
+          $data['kriteria'] = [];
+          $data['mode'] = 'ehem';
+        }
+      } else{ 
+        $data['kriteria'] = [];
+      }
     }
+  
     $this->load->view(HEADER, $data);
     $this->load->view(SIDEBAR_HRD);
     $this->load->view(HRD.'penilaian/view_penilaian');
@@ -55,9 +72,14 @@ class Penilaian extends CI_Controller{
     return ['karyawan' => $karyawannya];
   }
 
+  public function testing()
+  {
+    echo $this->session->userdata('tahun-nilai');
+  }
+
   private function get_id_periode()
   {
-    $id = $this->penilaian->get_id_periode($this->session->userdata('periode-nilai'),$this->session->userdata('tahun-nilai'));
+    $id = $this->penilaian->get_id_periode();
     return $id;
   }
 

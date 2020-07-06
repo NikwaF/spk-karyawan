@@ -17,7 +17,7 @@
             <li class=" nav-item <?= $this->uri->segment(1) === 'karyawan' ? 'active' : '' ?>"><a href="<?= site_url('karyawan') ?>"><i class="icon-user"></i><span data-i18n="" class="menu-title">Karyawan</span></a>
             <li class=" nav-item <?= $this->uri->segment(1) === 'kriteria' ? 'active' : '' ?>"><a href="<?= site_url('kriteria') ?>"><i class="icon-share-alt"></i><span data-i18n="" class="menu-title">Kriteria</span></a></li>
             <li class=" nav-item <?= $this->uri->segment(1) === 'range_nilai' ? 'active' : '' ?>"><a href="<?= site_url('range_nilai') ?>"><i class="icon-calculator"></i><span data-i18n="" class="menu-title">Range Nilai</span></a></li>
-              <li class=" nav-item"><a href="#"><i class="icon-book-open"></i><span data-i18n="" class="menu-title">Laporan</span></a>
+              <li class=" nav-item <?= $this->uri->segment(1) === 'laporan' ? 'active' : '' ?>"><a href="<?= site_url('laporan') ?>"><i class="icon-book-open"></i><span data-i18n="" class="menu-title">Laporan</span></a>
               </li>
 
             </ul>
@@ -38,8 +38,9 @@
                 <li class="dropdown nav-item mr-0"><a id="dropdownBasic3" href="#" data-toggle="dropdown" class="nav-link position-relative dropdown-user-link dropdown-toggle"><span class="avatar avatar-online"><img id="navbar-avatar" src="<?= base_url('vendor/') ?>app-assets/img/portrait/small/avatar-s-3.png" alt="avatar"/></span>
                     <p class="d-none">User Settings</p></a>
                   <div aria-labelledby="dropdownBasic3" class="dropdown-menu dropdown-menu-right">
-                    <div class="arrow_box_right"><a href="javascript:;" class="dropdown-item py-1"><i class="ft-settings mr-2"></i><span>Ganti Password</span></a>
-                      <div class="dropdown-divider"></div><a href="<?= site_url('auth/logout') ?>" class="dropdown-item"><i class="ft-power mr-2"></i><span>Keluar</span></a>
+                    <div class="arrow_box_right">
+
+                      <div class="dropdown-item"></div><a href="<?= site_url('auth/logout') ?>" class="dropdown-item"><i class="ft-power mr-2"></i><span>Keluar</span></a>
                     </div>
                   </div>
                 </li>

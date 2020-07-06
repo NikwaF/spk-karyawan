@@ -74,7 +74,7 @@
   </div>
 
     
-  <?php if($this->session->userdata('tahun-nilai') && $this->session->userdata('periode-nilai') && count($kriteria) !== 0): ?>
+  <?php if($this->session->userdata('tahun-nilai') && $this->session->userdata('periode-nilai') && $mode === 'bisa' && (count($kriteria) !== 0)): ?>
 		<div class="col-md-9">
 			<div class="card">
 				<div class="card-header">
@@ -104,7 +104,7 @@
   											<label  for="eventInput1"><?= $kriteria[$i]['nama_kriteria']?></label>
                         <select name="kriteria<?= $kriteria[$i]['id_kriteria']?>" class="custom-select d-block w-100">
                         <?php for($j=0; count($kriteria[$i]['parameter']) > $j ; $j++){ ?>
-                            <option class="text-capitalize" value="<?= $kriteria[$i]['parameter'][$j]->nilai ?>"><?= $kriteria[$i]['parameter'][$j]->nm_parameter ?></option>
+                            <option class="text-capitalize" value="<?= $kriteria[$i]['parameter'][$j]->nilai ?>"><?= $kriteria[$i]['parameter'][$j]->nilai.' - '. $kriteria[$i]['parameter'][$j]->nm_parameter ?></option>
                         <?php } ?>
                         </select>
                       </div>
@@ -133,7 +133,7 @@
 			<div class="card">
 				<div class="card-header">
 					<div class="card-title-wrap bar-warning">
-						<h4 class="card-title" id="basic-layout-form-center"><?= count($kriteria) !== 0 ? 'Harus Pilih Tahun Dan Periode Dulu' : 'Kriteria Masih Belum Diinputkan Admin' ?></h4>
+						<h4 class="card-title" id="basic-layout-form-center"><?= $this->session->userdata('tahun-nilai') && $this->session->userdata('periode-nilai') ?  count($kriteria) === 0  ? 'Kriteria Masih Belum Diinputkan Admin' : 'Harus Pilih Tahun Dan Periode Dulu' : 'Harus Pilih Tahun Dan Periode Dulu' ?></h4>
 					</div>
 					<p class="mb-0"></p>
 				</div>

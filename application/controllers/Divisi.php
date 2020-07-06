@@ -46,9 +46,9 @@ class Divisi extends  CI_Controller{
     $nama = $this->input->post('nama_divisi');
     $rules = array(
       array(
-          'field' => 'trim|nama_divisi',
+          'field' => 'nama_divisi',
           'label' => 'Nama Divisi',
-          'rules' => 'required'
+          'rules' => 'trim|required'
       )
     );    
 
