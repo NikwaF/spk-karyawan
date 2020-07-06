@@ -68,10 +68,11 @@ class Laporan extends CI_Controller{
     $exec_sum = $this->db->query($sql_sum)->row();
 
     $nilai_utility = [];
+    $nilai_akhir = 0;
     for($i=0; count($exec_karyawan) > $i ; $i++){
-      $nilai_utility[$i]['id_alternatif'] = $exec_karyawan[$i]->id_karyawan;
-      $nilai_utility[$i]['alternatif'] = $exec_karyawan[$i]->nama;
-      $nilai_utility[$i]['nilai_akhir'] = 0;
+      $ada_gak = 'ada';
+      $nilai_akhir = 0;
+
       for($j=0; count($exec_kriteria) > $j ; $j++){
         $sql_min = "select min(nilai) nilai_min from parameter where status = 1 AND id_kriteria = ".$exec_kriteria[$j]->id_kriteria;
         $exec_min = $this->db->query($sql_min)->row();
@@ -81,16 +82,25 @@ class Laporan extends CI_Controller{
         $sql_nilai = "select b.nilai from penilaian a join penilaian_detail b on a.id_penilaian = b.id_penilaian where a.id_periode=".$id_periode. " AND id_karyawan=".$exec_karyawan[$i]->id_karyawan. ' AND b.id_kriteria='.$exec_kriteria[$j]->id_kriteria;
         $exec_nilai = $this->db->query($sql_nilai)->row();
 
-        $nilai_utility[$i]['nilai'][$j]['id_kriteria'] = $exec_kriteria[$j]->id_kriteria;
-        $nilai_utility[$i]['nilai'][$j]['nama_kriteria'] = $exec_kriteria[$j]->nm_kriteria;
-        $nilai_utility[$i]['nilai'][$j]['bobot_normalisasi'] =round(($exec_kriteria[$j]->bobot / $exec_sum->bobot),2);
-        $nilai_utility[$i]['nilai'][$j]['nilai_utility'] = round(($exec_nilai->nilai - $exec_min->nilai_min)/ ($exec_max->nilai_max - $exec_min->nilai_min),2);
-        $nilai_utility[$i]['nilai'][$j]['nilai'] = $exec_nilai->nilai;
-        $normalisasi_bobot = $exec_kriteria[$j]->bobot / $exec_sum->bobot;
+        if($exec_nilai !== null){
+          $nilai_utility[$i]['nilai'][$j]['id_kriteria'] = $exec_kriteria[$j]->id_kriteria;
+          $nilai_utility[$i]['nilai'][$j]['nama_kriteria'] = $exec_kriteria[$j]->nm_kriteria;
+          $nilai_utility[$i]['nilai'][$j]['bobot_normalisasi'] =round(($exec_kriteria[$j]->bobot / $exec_sum->bobot),2);
+          $nilai_utility[$i]['nilai'][$j]['nilai_utility'] = round(($exec_nilai->nilai - $exec_min->nilai_min)/ ($exec_max->nilai_max - $exec_min->nilai_min),2);
+          $nilai_utility[$i]['nilai'][$j]['nilai'] = $exec_nilai->nilai;
+          $normalisasi_bobot = $exec_kriteria[$j]->bobot / $exec_sum->bobot;
 
-        $nilai_utility[$i]['nilai_akhir'] += ($exec_nilai->nilai - $exec_min->nilai_min)/ ($exec_max->nilai_max - $exec_min->nilai_min) * ($exec_kriteria[$j]->bobot / $exec_sum->bobot);
+          $nilai_akhir += ($exec_nilai->nilai - $exec_min->nilai_min)/ ($exec_max->nilai_max - $exec_min->nilai_min) * ($exec_kriteria[$j]->bobot / $exec_sum->bobot);
+        } else{
+          $ada_gak = 'tidak_ada';
+          continue;
+        }
       }
-      $nilai_utility[$i]['nilai_akhir'] = round($nilai_utility[$i]['nilai_akhir'],5);
+      if($ada_gak === 'ada'){
+        $nilai_utility[$i]['id_alternatif'] = $exec_karyawan[$i]->id_karyawan;
+        $nilai_utility[$i]['alternatif'] = $exec_karyawan[$i]->nama;
+        $nilai_utility[$i]['nilai_akhir'] = round($nilai_akhir,5);
+      }
     }
     return $nilai_utility;
   }
