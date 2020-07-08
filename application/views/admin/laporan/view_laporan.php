@@ -32,7 +32,7 @@
               <form action="<?= site_url('laporan') ?>" method="post">
       <div class="form-group">
         <label for="">Tahun</label>
-        <input autocomplete="off" type="text" class="form-control" name="tahun" value="<?= $this->session->userdata('tahun-nilai') && $this->session->userdata('tahun-nilai') ? $this->session->userdata('tahun-nilai') : ''?>">
+        <input autocomplete="off" type="text" class="form-control" name="tahun" required value="<?= $this->session->userdata('tahun-nilai') && $this->session->userdata('tahun-nilai') ? $this->session->userdata('tahun-nilai') : ''?>">
       </div>
       <div class="form-group">
         <label for="eventInput1">Periode</label>
