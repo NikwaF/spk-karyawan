@@ -6,7 +6,10 @@ class Laporan extends CI_Controller{
   public function index()
   {
     $data['judul'] = 'Perangkingan Karyawan';
+    $this->load->model('M_divisi','divisi');
+    $data['divisi'] = $this->divisi->get_divisi(null,['status' => 1]);
     if(isset($_POST['tahun']) && isset($_POST['periode'])){
+      $_SESSION['divisi'] = $_POST['divisi'];
       $this->session->set_userdata(['tahun-nilai' => $_POST['tahun'],'periode-nilai' => $_POST['periode']]);
       if($this->session->userdata('tahun-nilai') && $this->session->userdata('periode-nilai')){
         $id_periode = $this->get_id_periode();
@@ -61,6 +64,11 @@ class Laporan extends CI_Controller{
     $id_periode = $this->get_id_periode();
     
     $sql_karyawan = "select id_karyawan,nama,divisi.nm_divisi from karyawan join divisi on divisi.id_divisi = karyawan.id_divisi where karyawan.status = 1";
+
+    if($_SESSION['divisi'] !== 'semua'){
+     $sql_karyawan = "select id_karyawan,nama,divisi.nm_divisi from karyawan join divisi on divisi.id_divisi = karyawan.id_divisi where karyawan.status = 1 AND karyawan.id_divisi =".$_SESSION['divisi'];
+    }
+
     $exec_karyawan = $this->db->query($sql_karyawan)->result();
     $sql_kriteria = "select id_kriteria,nm_kriteria,bobot from kriteria where status = 1 AND id_periode=".$id_periode;
     $exec_kriteria = $this->db->query($sql_kriteria)->result();

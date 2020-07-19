@@ -41,6 +41,22 @@
             <option <?= $this->session->userdata('tahun-nilai') && $this->session->userdata('tahun-nilai') ? $this->session->userdata('periode-nilai') === '2' ? 'selected' : '' : ''?> value="2">2</option>
           </select>
       </div>        
+
+
+      <div class="form-group">
+          <label for="eventInput1">Divisi</label>
+          <select name="divisi" id="divisi" class="custom-select d-block w-100">
+            <option <?= isset($_SESSION['divisi']) && $_SESSION['divisi'] === 'semua' ? 'selected' : '' ?> value="semua"><?= count($divisi) > 0 ? 'Semua Divisi' : 'Belum ada divisi terdaftar'?></option>
+            <?php if(count($divisi) > 0): ?>            
+            <?php foreach($divisi as $div): ?>
+              <option <?= isset($_SESSION['divisi']) && $_SESSION['divisi'] == $div->id_divisi ? 'selected' : '' ?> value="<?= $div->id_divisi ?>"><?= $div->nm_divisi ?></option>
+            <?php endforeach; ?>
+            <?php endif; ?>            
+          </select>
+        </div>   
+
+
+      
       <div class="form-actions">
           <button type="submit" class="btn btn-warning">
             <i class="icon-note"></i> <?= $this->session->userdata('tahun-rangking') && $this->session->userdata('tahun-rangking') ? 'Ubah' : 'Pilih'?>
