@@ -73,6 +73,7 @@
                     <tr>
                       <th>Rangking</th>
                       <th>Nama Karyawan</th>
+                      <th>Divisi</th>
                       <?php foreach($rangking[0]['nilai'] as $nm_kriteria): ?>
                         <th class="text-capitalize"><?= $nm_kriteria['nama_kriteria'] ?></th>
                       <?php endforeach; ?>
@@ -84,6 +85,7 @@
                       <tr>
                         <td><?= $no; ?></td>
                         <td class="text-capitalize"><?= $rang['alternatif'] ?></td>
+                        <td class="text-capitalize"><?= $rang['divisi'] ?></td>
                         <?php foreach($rang['nilai'] as $nilai): ?>
                           <td><?= $nilai['nilai'] ?></td>
                         <?php endforeach; ?>

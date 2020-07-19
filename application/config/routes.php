@@ -52,6 +52,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'auth/index_ketua';
 $route['404_override'] = '';
-$route['admin'] = 'auth/index_admin';
-$route['hrd'] = 'auth/index_hrd';
+// $route['admin'] = 'auth/index_admin';
+// $route['hrd'] = 'auth/index_hrd';
 $route['translate_uri_dashes'] = FALSE;

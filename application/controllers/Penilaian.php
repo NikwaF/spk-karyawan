@@ -54,7 +54,7 @@ class Penilaian extends CI_Controller{
     
     $id_periode = $this->get_id_periode(); 
     $where = ['a.status' => 1, 'a.id_divisi' => $_SESSION['id_divisi']];
-    $karyawan = $this->karyawan->get_karyawan();
+    $karyawan = $this->karyawan->get_karyawan_where(null,$where);
     $sql =  "select id_karyawan from penilaian where id_periode =". $id_periode;
     $query = $this->db->query($sql)->result();
 

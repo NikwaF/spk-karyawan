@@ -68,7 +68,7 @@ class Auth extends CI_Controller{
   public function aksi_login_admin()
   {
     $post = $this->input->post();
-    $username = $post['username'];
+    $username = strtolower($post['username']);
     $password = $post['password'];
     $rules = array(
       array(
@@ -104,7 +104,7 @@ class Auth extends CI_Controller{
   public function aksi_login_hrd()
   {
     $post = $this->input->post();
-    $username = $post['username'];
+    $username = strtolower($post['username']);
     $password = $post['password'];
     $rules = array(
       array(
@@ -140,7 +140,7 @@ class Auth extends CI_Controller{
   public function aksi_login_ketua()
   {
     $post = $this->input->post();
-    $username = $post['username'];
+    $username = strtolower($post['username']);
     $password = $post['password'];
     $rules = array(
       array(
@@ -174,18 +174,18 @@ class Auth extends CI_Controller{
   }    
 
 
-  public function cek_bener($password,$data,$target)
+  public function cek_bener($password,$data)
   {
     if($data === null){
       $this->session->set_flashdata('danger', 'Username tidak ditemukan');
       $this->session->set_flashdata('key', 'danger');
-      redirect($target);
+      redirect('/');
     }
 
     if(!password_verify($password, $data->password)){
       $this->session->set_flashdata('danger', 'Password Salah');
       $this->session->set_flashdata('key', 'danger');
-      redirect($target);
+      redirect('/');
     }
   }
 

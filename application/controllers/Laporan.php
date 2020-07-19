@@ -60,7 +60,7 @@ class Laporan extends CI_Controller{
   {
     $id_periode = $this->get_id_periode();
     
-    $sql_karyawan = "select id_karyawan,nama from karyawan where status = 1";
+    $sql_karyawan = "select id_karyawan,nama,divisi.nm_divisi from karyawan join divisi on divisi.id_divisi = karyawan.id_divisi where karyawan.status = 1";
     $exec_karyawan = $this->db->query($sql_karyawan)->result();
     $sql_kriteria = "select id_kriteria,nm_kriteria,bobot from kriteria where status = 1 AND id_periode=".$id_periode;
     $exec_kriteria = $this->db->query($sql_kriteria)->result();
@@ -99,6 +99,7 @@ class Laporan extends CI_Controller{
       if($ada_gak === 'ada'){
         $nilai_utility[$i]['id_alternatif'] = $exec_karyawan[$i]->id_karyawan;
         $nilai_utility[$i]['alternatif'] = $exec_karyawan[$i]->nama;
+        $nilai_utility[$i]['divisi'] = $exec_karyawan[$i]->nm_divisi;
         $nilai_utility[$i]['nilai_akhir'] = round($nilai_akhir,5);
       }
     }

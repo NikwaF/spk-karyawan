@@ -88,7 +88,7 @@ class Divisi extends  CI_Controller{
     } 
 
     $this->load->model('M_user','user');
-    $usename_cek = $this->user->auth_user($post['username_ketua']);
+    $usename_cek = $this->user->auth_user(strtolower($post['username_ketua']));
 
     if($usename_cek !== null){
       $this->session->set_flashdata('danger', 'Username Yang Sama Ditemukan! usename tidak boleh sama');
@@ -99,7 +99,7 @@ class Divisi extends  CI_Controller{
     
 
     $this->db->trans_start();
-    $ins_ketua = $this->divisi->insert_divisi('user',['id_role' => 3, 'nama' => $post['nama_ketua'], 'username' => $post['username_ketua'], 'password' => password_hash('coba', PASSWORD_DEFAULT)]);
+    $ins_ketua = $this->divisi->insert_divisi('user',['id_role' => 3, 'nama' => $post['nama_ketua'], 'username' => strtolower($post['username_ketua']), 'password' => password_hash('coba', PASSWORD_DEFAULT)]);
     $id_user = $this->db->insert_id();
     $ins_ketua = $this->divisi->insert_divisi('ketua_divisi',['id_user' => $id_user , 'nohp' => $post['nohp_ketua'], 'alamat' => $post['alamat']]);
     $id_ketua = $this->db->insert_id();
@@ -195,7 +195,7 @@ class Divisi extends  CI_Controller{
 
     $get_id  = $this->divisi->dapet_id($post['id']);
     $this->load->model('M_user','user');
-    $usename_cek = $this->user->cek_user(['id_user !=' => $get_id->user, 'username' => $post['username_ketua'] ]);
+    $usename_cek = $this->user->cek_user(['id_user !=' => $get_id->user, 'username' => strtolower($post['username_ketua']) ]);
 
     if($usename_cek !== null){
       $this->session->set_flashdata('danger', 'Username Yang Sama Ditemukan! usename tidak boleh sama');
@@ -206,7 +206,7 @@ class Divisi extends  CI_Controller{
 
     $this->db->trans_start();
     $this->divisi->update_divisi('divisi',['id_divisi' => $post['id']],['nm_divisi' => $post['nama_divisi']]);
-    $this->divisi->update_divisi('user',['id_user' => $get_id->user],['nama' => $post['nama_ketua'],'username' => $post['username_ketua']]);
+    $this->divisi->update_divisi('user',['id_user' => $get_id->user],['nama' => $post['nama_ketua'],'username' => strtolower($post['username_ketua'])]);
     $this->divisi->update_divisi('ketua_divisi',['id_ketua_divisi' => $get_id->ketua],['nohp' => $post['nohp_ketua'],'alamat' => $post['alamat']]);
     $this->db->trans_complete();
 
