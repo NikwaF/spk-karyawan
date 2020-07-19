@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body">
                         <div class="card-block">                        
-                        <?php echo form_open('auth/aksi_login_admin'); ?>
+                        <?php echo form_open('auth/aksi_login_hrd'); ?>
                                 <div class="form-group <?= form_error('username') ? 'error' : '' ?>">
                                     <div class="col-md-12">
                                     <?php if($this->session->flashdata('key')): ?>

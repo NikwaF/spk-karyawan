@@ -15,7 +15,7 @@ class Karyawan extends CI_Controller{
     $data['isinya'] = $this->get_all_karyawan();
     $data['mode'] = 'tambah';
     $this->load->view(HEADER, $data);
-    $this->load->view(SIDEBAR_ADMIN);
+    $this->load->view(SIDEBAR_HRD);
     $this->load->view(ADMIN.'karyawan/view_karyawan');
     $this->load->view(FOOTER);
   }
@@ -99,7 +99,7 @@ class Karyawan extends CI_Controller{
       $data['divisi'] = $this->get_divisi();
       $data['mode'] = 'tambah';
       $this->load->view(HEADER, $data);
-      $this->load->view(SIDEBAR_ADMIN);
+      $this->load->view(SIDEBAR_HRD);
       $this->load->view(ADMIN.'karyawan/view_karyawan');
       $this->load->view(FOOTER);
 
@@ -142,7 +142,7 @@ class Karyawan extends CI_Controller{
     $data['data_edit'] = $edit_data;
     $data['mode'] = 'edit';
     $this->load->view(HEADER, $data);
-    $this->load->view(SIDEBAR_ADMIN);
+    $this->load->view(SIDEBAR_HRD);
     $this->load->view(ADMIN.'karyawan/view_karyawan');
     $this->load->view(FOOTER);    
   }
@@ -199,7 +199,7 @@ class Karyawan extends CI_Controller{
       $data['isinya'] = $this->get_all_karyawan();
       $data['mode'] = 'tambah';
       $this->load->view(HEADER, $data);
-      $this->load->view(SIDEBAR_ADMIN);
+      $this->load->view(SIDEBAR_HRD);
       $this->load->view(ADMIN.'karyawan/view_karyawan');
       $this->load->view(FOOTER);
 

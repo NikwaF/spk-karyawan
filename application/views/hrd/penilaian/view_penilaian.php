@@ -94,7 +94,7 @@
 											<label for="eventInput1">Nama Karyawan</label>
                       <select name="nm_karyawan" id="nm_karyawan" class="custom-select d-block w-100">
                         <?php foreach($karyawan['karyawan'] as $ky): ?>
-                          <option value="<?= $ky->id_karyawan ?>"><?= $ky->nama .' - '.$ky->nm_divisi ?></option>
+                          <option value="<?= $ky->id_karyawan ?>"><?= $ky->nama .' - '.$ky->no_hp ?></option>
                         <?php endforeach; ?>
                       </select>
 										</div>

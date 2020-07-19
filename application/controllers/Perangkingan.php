@@ -60,12 +60,55 @@ class Perangkingan extends CI_Controller{
     $id = $this->penilaian->get_id_periode();
     return $id;
   }
+
+  public function perangkingan_divisi()
+  {
+    $data['judul'] = 'Perangkingan Karyawan';
+    if(isset($_POST['tahun']) && isset($_POST['periode'])){
+      $this->session->set_userdata(['tahun-nilai' => $_POST['tahun'],'periode-nilai' => $_POST['periode']]);
+      if($this->session->userdata('tahun-nilai') && $this->session->userdata('periode-nilai')){
+        $id_periode = $this->get_id_periode();
+
+        if($id_periode !== null){
+          $rangking = $this->rangking('div');
+          $this->array_sort_by_column($rangking, 'nilai_akhir');
+          $data['rangking'] = $rangking;
+        } else{ 
+          $data['rangking'] = [];
+        }
+      } 
+    } else{ 
+      if($this->session->userdata('tahun-nilai') && $this->session->userdata('periode-nilai')){
+        $id_periode = $this->get_id_periode();
+        if($id_periode !== null){
+          $rangking = $this->rangking('div');
+          $this->array_sort_by_column($rangking, 'nilai_akhir');
+          $data['rangking'] = $rangking;
+        } else{
+          $data['rangking'] = [];
+        }
+      } else{
+        $data['rangking'] = [];
+      }
+    }
+
+    $this->load->view(HEADER, $data);
+    $this->load->view(SIDEBAR_KETUA );
+    $this->load->view(HRD.'perangkingan/view_perangkingan_divisi');
+    $this->load->view(FOOTER);
+    // $rangking = $this->rangking(); 
+    // echo json_encode($rangking);
+  }
   
-  public function rangking()
+  public function rangking($jenis = null)
   {
     $id_periode = $this->get_id_periode();
     
+
     $sql_karyawan = "select id_karyawan,nama from karyawan where status = 1";
+    if($jenis !== null){
+      $sql_karyawan = "select id_karyawan,nama from karyawan where status = 1 AND id_divisi =".$_SESSION['id_divisi'];
+    }
     $exec_karyawan = $this->db->query($sql_karyawan)->result();
     $sql_kriteria = "select id_kriteria,nm_kriteria,bobot from kriteria where status = 1 AND id_periode=".$id_periode;
     $exec_kriteria = $this->db->query($sql_kriteria)->result();

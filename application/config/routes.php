@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -49,7 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'auth';
+$route['default_controller'] = 'auth/index_ketua';
 $route['404_override'] = '';
 $route['admin'] = 'auth/index_admin';
+$route['hrd'] = 'auth/index_hrd';
 $route['translate_uri_dashes'] = FALSE;

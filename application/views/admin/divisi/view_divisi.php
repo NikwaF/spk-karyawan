@@ -40,6 +40,31 @@
                         <?= form_error('nama_divisi', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>                                            
                     </div>
 
+                    <div class="form-group <?= form_error('nama_ketua') ? 'error' : '' ?>">
+                        <label for="eventInput1">Nama Ketua Divisi</label>
+                        <input type="text" id="eventInput1" class="form-control" name="nama_ketua" value="<?= $mode === 'edit' && !form_error('nama_ketua')  ? $data_edit->nama : '' ?>">
+                        <?= form_error('nama_ketua', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>                                            
+                    </div>      
+
+                    <div class="form-group <?= form_error('username_ketua') ? 'error' : '' ?>">
+                        <label for="eventInput1">Username Ketua</label>
+                        <input type="text" id="eventInput1" class="form-control" name="username_ketua" value="<?= $mode === 'edit' && !form_error('username_ketua')  ? $data_edit->username : '' ?>">
+                        <?= form_error('username_ketua', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>                                            
+                    </div>              
+
+
+                    <div class="form-group <?= form_error('nohp_ketua') ? 'error' : '' ?>">
+                        <label for="eventInput1">Nomer HP Ketua</label>
+                        <input type="text" id="eventInput1" class="form-control" name="nohp_ketua" value="<?= $mode === 'edit' && !form_error('nohp_ketua')  ? $data_edit->nohp : '' ?>">
+                        <?= form_error('nohp_ketua', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>                                            
+                    </div>      
+
+                    <div class="form-group <?= form_error('alamat') ? 'error' : '' ?>">
+                      <label for="eventInput1">Alamat</label>
+                      <textarea name="alamat" class="form-control" id="alamat" rows="5"><?= $mode === 'tambah' ? form_error('alamat') ? set_value('alamat') : '' : $data_edit->alamat ?></textarea>
+                      <?= form_error('alamat', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>
+                    </div>                                                                 
+
                     <?php if($mode === 'edit'): ?>
                         <input type="hidden" id="eventInput1" class="form-control" name="id" value="<?= $mode === 'edit' ? $data_edit->id_divisi : '' ?>">
                     <?php endif; ?>
@@ -49,8 +74,7 @@
 									<i class="icon-note"></i> <?= $mode === 'tambah' ? 'Simpan' : 'Edit'?>
 								</button>
 							</div>                    
-
-									</div>
+                    </div>
                       </form>
                     </div>
                 </div>
@@ -70,6 +94,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Nama Divisi</th>
+                                    <th>Ketua Divisi</th>
+                                    <th>No Hp</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -78,13 +104,15 @@
                                 <?php $no=1; foreach($isinya['aktif'] as $aktif): ?>
                                 <tr>
                                     <th scope="row"><?= $no ?></th>
-                                    <td><?= $aktif->nm_divisi ?></td>
+                                    <td class="text-capitalize"><?= $aktif->nm_divisi ?></td>
+                                    <td class="text-capitalize"><?= $aktif->nama ?></td>
+                                    <td><?= $aktif->nohp ?></td>
                                     <td><a href="<?= site_url('divisi/edit/').$aktif->id_divisi ?>" class="btn btn-sm btn-warning"><i class="icon-pencil"></i></a> <a href="<?= site_url('divisi/nonaktifkan/').$aktif->id_divisi ?>" class="btn btn-sm btn-danger"><i class="icon-lock"></i></a></td>
                                 </tr>
                                 <?php $no++; endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                    <td colspan="3" class="text-center">Tidak ada data</td>
+                                    <td colspan="5" class="text-center">Tidak ada data</td>
                                 </tr>
                                 <?php endif; ?>
                                 
@@ -108,6 +136,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Nama Divisi</th>
+                                    <th>Ketua Divisi</th>
+                                    <th>No Hp Divisi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -116,13 +146,15 @@
                                 <?php $no=1; foreach($isinya['nonaktif'] as $nonaktif): ?>
                                 <tr>
                                     <th scope="row"><?= $no ?></th>
-                                    <td><?= $nonaktif->nm_divisi ?></td>
+                                    <td class="text-capitalize"><?= $nonaktif->nm_divisi ?></td>
+                                    <td class="text-capitalize"><?= $nonaktif->nama ?></td>
+                                    <td><?= $nonaktif->nohp ?></td>
                                     <td><a href="<?= site_url('divisi/aktifkan/').$nonaktif->id_divisi ?>" class="btn btn-sm btn-success"><i class="icon-lock-open"></i></a></td>
                                 </tr>
                                 <?php $no++; endforeach; ?>
                                 <?php else: ?>
                                 <tr>
-                                    <td colspan="3" class="text-center">Tidak ada data</td>
+                                    <td colspan="5" class="text-center">Tidak ada data</td>
                                 </tr>
                             <?php endif; ?>
                             </tbody>
@@ -132,6 +164,10 @@
             </div> 
         </div>      
         </div>
+
+        <?php 
+            print_r($isinya);
+        ?>
 </section>
 <script>
     $('#tabel-aktif').DataTable({"pageLength": 5,"lengthMenu": [[5,10],[5,10]]});

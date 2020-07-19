@@ -43,7 +43,7 @@ class Penilaian extends CI_Controller{
     }
   
     $this->load->view(HEADER, $data);
-    $this->load->view(SIDEBAR_HRD);
+    $this->load->view(SIDEBAR_KETUA);
     $this->load->view(HRD.'penilaian/view_penilaian');
     $this->load->view(FOOTER);
   }
@@ -51,8 +51,9 @@ class Penilaian extends CI_Controller{
   private function get_karyawan()
   {
     $this->load->model('M_karyawan', 'karyawan');
-
+    
     $id_periode = $this->get_id_periode(); 
+    $where = ['a.status' => 1, 'a.id_divisi' => $_SESSION['id_divisi']];
     $karyawan = $this->karyawan->get_karyawan();
     $sql =  "select id_karyawan from penilaian where id_periode =". $id_periode;
     $query = $this->db->query($sql)->result();

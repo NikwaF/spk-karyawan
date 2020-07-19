@@ -87,5 +87,7 @@ define('HEADER', 'layout/header');
 define('FOOTER', 'layout/footer');
 define('SIDEBAR_ADMIN','layout/sidebar_admin');
 define('SIDEBAR_HRD','layout/sidebar_hrd');
+define('SIDEBAR_KETUA','layout/sidebar_ketua');
 define('ADMIN', 'admin/');
+define('KETUA', 'ketua/');
 define('HRD', 'hrd/');
