@@ -26,7 +26,6 @@
     <link rel="stylesheet" type="text/css" href="<?=$vendor;?>app-assets/fonts/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="<?=$vendor;?>app-assets/vendors/css/perfect-scrollbar.min.css">
     <link rel="stylesheet" type="text/css" href="<?=$vendor;?>app-assets/vendors/css/prism.min.css">
-    <link rel="stylesheet" type="text/css" href="<?=$vendor;?>app-assets/vendors/css/chartist.min.css">
     <link rel="stylesheet" type="text/css" href="<?=$vendor;?>app-assets/css/app.css">
 
     <!-- BEGIN VENDOR JS-->
@@ -40,13 +39,11 @@
     <script src="<?=$vendor;?>app-assets/vendors/js/pace/pace.min.js"></script>
     <!-- BEGIN VENDOR JS-->
     <!-- BEGIN PAGE VENDOR JS-->
-    <script src="<?=$vendor;?>app-assets/vendors/js/chartist.min.js"></script>
     <!-- END PAGE VENDOR JS-->
     <!-- BEGIN CONVEX JS-->
     <script src="<?=$vendor;?>app-assets/js/app-sidebar.js"></script>
     <script src="<?=$vendor;?>app-assets/js/notification-sidebar.js"></script>
     <!-- END CONVEX JS-->
     <!-- BEGIN PAGE LEVEL JS-->
-    <script src="<?=$vendor;?>app-assets/js/dashboard-ecommerce.js"></script>
     <!-- END PAGE LEVEL JS-->    
   </head>

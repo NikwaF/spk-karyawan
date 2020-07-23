@@ -1,12 +1,17 @@
 
+
 <link rel="stylesheet" type="text/css" href="<?= base_url('vendor/') ?>app-assets/vendors/css/tables/datatable/datatables.min.css">
 <script src="<?= base_url('vendor/') ?>app-assets/vendors/js/datatable/datatables.min.js"></script>
 <div class="main-panel">
+
+
+
         <div class="main-content">
           <div class="content-wrapper">
-            <div class="container-fluid"><div class="row">
+            <div class="container-fluid">
 
-</div>
+
+
 <!--Basic Table Starts-->
 
 <section id="simple-table">
@@ -29,7 +34,7 @@
                 </div>
                 <div class="card-body">
                     <div class="card-block">
-                      <form action="<?= $mode === 'tambah' ? site_url('karyawan/insert') : site_url('karyawan/update') ?>" method="POST">
+                      <form action="<?= $mode === 'tambah' ? site_url('karyawan/insert') : site_url('karyawan/update') ?>" method="POST" enctype="multipart/form-data">
                       <div class="form-body">
                       <div class="form-group">
                       <label for="eventInput1">Divisi</label>
@@ -46,11 +51,22 @@
                         <input type="text" id="eventInput1" class="form-control" name="nama_karyawan" value="<?= $mode === 'tambah' ? form_error('nama_karyawan') ? set_value('nama_karyawan') : '' : $data_edit->nama ?>">
                         <?= form_error('nama_karyawan', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?> 
                     </div>
+
+                    <div class="form-group <?= form_error('agama') ? 'error' : '' ?>">
+                        <label for="eventInput1">Agama</label>
+                        <input type="text" id="eventInput1" class="form-control" name="agama" value="<?= $mode === 'tambah' ? form_error('agama') ? set_value('agama') : '' : $data_edit->agama ?>">
+                        <?= form_error('agama', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?> 
+                    </div>                    
                     <div class="form-group <?= form_error('umur') ? 'error' : '' ?>">
                         <label for="eventInput1">Umur</label>
                         <input type="number" id="eventInput1" class="form-control" name="umur" value="<?= $mode === 'tambah' ? form_error('umur') ? set_value('umur') : '' : $data_edit->umur ?>">
                         <?= form_error('umur', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?> 
                     </div>                    
+                    <div class="form-group <?= form_error('email') ? 'error' : '' ?>">
+                        <label for="eventInput1">Email</label>
+                        <input type="email" id="eventInput1" class="form-control" name="email" value="<?= $mode === 'tambah' ? form_error('email') ? set_value('email') : '' : $data_edit->email ?>">
+                        <?= form_error('email', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?> 
+                    </div>                     
                     <div class="form-group <?= form_error('no_hp') ? 'error' : '' ?>">
                         <label for="eventInput1">Nomer hp</label>
                         <input type="text" id="eventInput1" class="form-control" name="no_hp" value="<?= $mode === 'tambah' ? form_error('no_hp') ? set_value('no_hp') : '' : $data_edit->no_hp ?>">
@@ -64,6 +80,19 @@
                       </select>
                       <?= form_error('kelamin', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>
                     </div>                    
+                    <div class="form-group <?= form_error('status_menikah') ? 'error' : '' ?>">
+                      <label for="eventInput1">Jenis status_menikah</label>
+                      <select name="status_menikah" id="status_menikah" class="custom-select d-block w-100">
+                        <option <?= $mode === 'edit' && $data_edit->status_menikah === '1' ? 'selected' : '' ?> value="1">Sudah Menikah</option>
+                        <option <?= $mode === 'edit' && $data_edit->status_menikah === '0' ? 'selected' : '' ?> value="0">Belum Menikah</option>
+                      </select>
+                      <?= form_error('status_menikah', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>
+                    </div>                       
+                    <div class="form-group <?= form_error('tempat_lahir') ? 'error' : '' ?>">
+                        <label for="eventInput1">Tempat Lahir</label>
+                        <input type="text" id="eventInput1" class="form-control" name="tempat_lahir" value="<?= $mode === 'tambah' ? form_error('tempat_lahir') ? set_value('tempat_lahir') : '' : $data_edit->tempat_lahir ?>">
+                        <?= form_error('tempat_lahir', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?> 
+                    </div>                   
                     <div class="form-group <?= form_error('tgl_lahir') ? 'error' : '' ?>">
                         <label for="eventInput1">Tanggal Lahir</label>
                         <input type="date" id="eventInput1" class="form-control" name="tgl_lahir" value="<?= $mode === 'tambah' ? form_error('tgl_lahir') ? set_value('tgl_lahir') : '' : date("Y-m-d", strtotime($data_edit->tgl_lahir))  ?>">
@@ -71,13 +100,19 @@
                     </div>
                     <?php if($mode === 'edit'): ?>
                         <input type="hidden" id="eventInput1" class="form-control" name="id" value="<?= $mode === 'edit' ? $data_edit->id_karyawan : '' ?>">
+                        <input type="hidden" id="eventInput1" class="form-control" name="foto_lama" value="<?= $mode === 'edit' ? $data_edit->foto : '' ?>">
                     <?php endif; ?>
                     <div class="form-group <?= form_error('alamat') ? 'error' : '' ?>">
                       <label for="eventInput1">Alamat</label>
                       <textarea name="alamat" class="form-control" id="alamat" rows="5"><?= $mode === 'tambah' ? form_error('alamat') ? set_value('alamat') : '' : $data_edit->alamat ?></textarea>
                       <?= form_error('alamat', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>
                     </div>                    
-
+                    <div class="form-group">
+                        <label for="#">Foto </label>
+                        <input type="file" name="foto" id="basicInputFile" class="form-control-file">
+                        <label for="#"><span style="font-size:10px;">* maksimal 2MB, format JPG/JPEG/PNG</span></label>
+                      <?= form_error('foto', '<ul role="alert"><li style="color:red;">','</li></ul>') ;?>
+                    </div>
                     
                     <div class="form-actions center">
                         <button type="submit" class="btn btn-<?= $mode === 'tambah' ? 'success' : 'warning'?>">
@@ -121,7 +156,7 @@
                                     <td><?= $aktif->jns_kelamin === 'l' ? 'laki-laki' : 'perempuan' ?></td>
                                     <td><?= tgl_indo($aktif->tgl_lahir) ?></td>
                                     <td><?= $aktif->no_hp ?></td>
-                                    <td><a href="<?= site_url('karyawan/edit/').$aktif->id_karyawan ?>" class="btn btn-sm btn-warning"><i class="icon-pencil"></i></a> <a href="<?= site_url('karyawan/nonaktifkan/').$aktif->id_karyawan ?>" class="btn btn-sm btn-danger"><i class="icon-lock"></i></a></td>
+                                    <td><a class="btn btn-sm btn-info" data-nama="<?= $aktif->nama ?>" data-kelamin="<?= $aktif->jns_kelamin === 'l' ? 'Laki-laki' : 'Perempuan' ?>" data-alamat="<?= $aktif->alamat ?>" data-tgl="<?= tgl_indo($aktif->tgl_lahir) ?>" data-tempat="<?= $aktif->tempat_lahir ?>" data-agama="<?= $aktif->agama ?>" data-foto="<?= $aktif->foto ?>" data-nohp="<?= $aktif->no_hp ?>" data-divisi="<?= $aktif->nm_divisi ?> " data-email="<?= $aktif->email ?> " data-menikah="<?= $aktif->status_menikah == '0' ? 'Belum Menikah' : 'Sudah Menikah' ?> "><i class="icon-eye"></i></a><a style="margin-left:5px;" href="<?= site_url('karyawan/edit/').$aktif->id_karyawan ?>" class="btn btn-sm btn-warning"><i class="icon-pencil"></i></a> <a href="<?= site_url('karyawan/nonaktifkan/').$aktif->id_karyawan ?>" class="btn btn-sm btn-danger"><i class="icon-lock"></i></a></td>
                                 </tr>
                                 <?php $no++; endforeach; ?>
                                 <?php else: ?>
@@ -164,7 +199,7 @@
                                     <td><?= $nonaktif->jns_kelamin === 'l' ? 'laki-laki' : 'perempuan' ?></td>
                                     <td><?= tgl_indo($nonaktif->tgl_lahir) ?></td>
                                     <td><?= $nonaktif->no_hp ?></td>
-                                    <td><a href="<?= site_url('karyawan/aktifkan/').$nonaktif->id_karyawan ?>" class="btn btn-sm btn-success"><i class="icon-lock-open"></i></a></td>
+                                    <td><a class="btn btn-sm btn-info" data-nama="<?= $aktif->nama ?>" data-kelamin="<?= $aktif->jns_kelamin === 'l' ? 'Laki-laki' : 'Perempuan' ?>" data-alamat="<?= $aktif->alamat ?>" data-tgl="<?= tgl_indo($aktif->tgl_lahir) ?>" data-tempat="<?= $aktif->tempat_lahir ?>" data-agama="<?= $aktif->agama ?>" data-foto="<?= $aktif->foto ?>" data-nohp="<?= $aktif->no_hp ?>" data-divisi="<?= $aktif->nm_divisi ?> " data-email="<?= $aktif->email ?> " data-menikah="<?= $aktif->status_menikah == '0' ? 'Belum Menikah' : 'Sudah Menikah' ?> "><i class="icon-eye"></i></a><a style="margin-left:5px;" href="<?= site_url('karyawan/aktifkan/').$nonaktif->id_karyawan ?>" class="btn btn-sm btn-success"><i class="icon-lock-open"></i></a></td>
                                 </tr>
                                 <?php $no++; endforeach; ?>
                                 <?php else: ?>
@@ -179,10 +214,36 @@
             </div>            
         </div>
     </div>
+ 
+
 </section>
 
 <script>
+    const url = `<?= base_url(); ?>images/`;
+
+    $('.btn-info').on('click', function(){
+        console.log('wpoi');
+     
+        $('.fotonya').attr('src',`${url}${$(this).data('foto')}`);
+        $('.namanya').text($(this).data('nama'));
+        $('.divisinya').text($(this).data('divisi'));
+        $('.tanggalnya').text($(this).data('tgl'));
+        $('.agamanya').text($(this).data('agama'));
+        $('.emailnya').text($(this).data('email'));
+        $('.nohpnya').text($(this).data('nohp'));
+        $('.alamatnya').text($(this).data('alamat'));
+        $('.lahirnya').text($(this).data('tempat'));
+        $('.kelaminnya').text($(this).data('kelamin'));
+        $('.kawinnya').text($(this).data('menikah'));
+
+        $('#large').modal('show');
+    });   
     $('#tabel-aktif').DataTable({"pageLength": 5,"lengthMenu": [[5,10],[5,10]]});
     $('#tabel-non-aktif').DataTable({"pageLength": 5,"lengthMenu": [[5,10],[5,10]]});
+
+
+
 </script>
+
+
 <!--Basic Table Ends-->

@@ -86,8 +86,34 @@ class Karyawan extends CI_Controller{
         'field' => 'alamat',
         'label' => 'Alamat',
         'rules' => 'trim|required'
-      )
+      ),
+      array(
+        'field' => 'tempat_lahir',
+        'label' => 'Tempat Lahir',
+        'rules' => 'trim|required'
+      ),
+      array(
+        'field' => 'status_menikah',
+        'label' => 'Status Menikah',
+        'rules' => 'trim|required'
+      ),
+      array(
+        'field' => 'email',
+        'label' => 'Email',
+        'rules' => 'trim|required'
+      ),
+      array(
+        'field' => 'agama',
+        'label' => 'Agama',
+        'rules' => 'trim|required'
+      ),
+
     );
+    if(!isset($_FILES['foto'])){
+      array_push($rules,['field' => 'foto',
+      'label' => 'Foto Karyawan',
+      'rules' => 'required']);
+    }
 
     $this->form_validation->set_message('required','%s tidak boleh kosong');
     $this->form_validation->set_message('numeric','%s harus angka');
@@ -106,19 +132,39 @@ class Karyawan extends CI_Controller{
       return;
     }     
 
-    $insertkan = $this->karyawan->insert_karyawan(['nama' => $post['nama_karyawan'],'umur' => $post['umur'],'id_divisi' => $post['divisi'],'alamat' => $post['alamat'],'tgl_lahir' => $post['tgl_lahir'],'no_hp' => $post['no_hp'],'umur' => $post['umur'],'jns_kelamin' => $post['kelamin'], 'status' => 1]);
+    $config['file_name'] = uniqid();
+    $config['max_size'] = '2048';
+    $config['allowed_types'] = 'png|jpeg|jpg';
+    $config['upload_path'] = realpath(APPPATH . '../images/');
+    $this->load->library('upload',$config);
 
-    if($insertkan){
-      $this->session->set_flashdata('success', 'Data berhasil Ditambahkan');
-      $this->session->set_flashdata('key', 'success');
-      redirect('karyawan');
-      return;
-    } else{
-      $this->session->set_flashdata('danger', 'Data berhasil Ditambahkan');
+    if(!$this->upload->do_upload('foto')){
+      $this->session->set_flashdata('danger', $this->upload->display_errors());
       $this->session->set_flashdata('key', 'danger');
       redirect('karyawan');
-      return;
+    } else{ 
+      $insertkan = $this->karyawan->insert_karyawan(['foto' => $this->upload->data('file_name'),'tempat_lahir' => $post['tempat_lahir'],'email' => $post['email'],'agama' => $post['agama'],'nama' => $post['nama_karyawan'],'umur' => $post['umur'],'id_divisi' => $post['divisi'],'alamat' => $post['alamat'],'tgl_lahir' => $post['tgl_lahir'],'no_hp' => $post['no_hp'],'umur' => $post['umur'],'jns_kelamin' => $post['kelamin'], 'status' => 1]);
+
+      if($insertkan){
+        $this->session->set_flashdata('success', 'Data berhasil Ditambahkan');
+        $this->session->set_flashdata('key', 'success');
+        redirect('karyawan');
+        return;
+      } else{
+        $this->session->set_flashdata('danger', 'Data berhasil Ditambahkan');
+        $this->session->set_flashdata('key', 'danger');
+        redirect('karyawan');
+        return;
+      }
     }
+
+
+
+
+
+
+    
+
   }
 
 
@@ -150,7 +196,7 @@ class Karyawan extends CI_Controller{
   public function update()
   {
     $post = $this->input->post();
-    $data_edit = ['nama' => $post['nama_karyawan'],'umur' => $post['umur'],'id_divisi' => $post['divisi'],'alamat' => $post['alamat'],'tgl_lahir' => $post['tgl_lahir'],'no_hp' => $post['no_hp'],'umur' => $post['umur'],'jns_kelamin' => $post['kelamin'], 'status' => 1];
+    $data_edit = ['nama' => $post['nama_karyawan'],'umur' => $post['umur'],'id_divisi' => $post['divisi'],'alamat' => $post['alamat'],'tgl_lahir' => $post['tgl_lahir'],'no_hp' => $post['no_hp'],'umur' => $post['umur'],'jns_kelamin' => $post['kelamin'],'tempat_lahir' => $post['tempat_lahir'],'status_menikah' => $post['status_menikah'],'email' => $post['email'],'agama' => $post['agama'], 'status' => 1];
     $rules = array(
       array(
         'field' => 'divisi',
@@ -186,7 +232,27 @@ class Karyawan extends CI_Controller{
         'field' => 'alamat',
         'label' => 'Alamat',
         'rules' => 'trim|required'
-      )
+      ),
+      array(
+        'field' => 'tempat_lahir',
+        'label' => 'Tempat Lahir',
+        'rules' => 'trim|required'
+      ),
+      array(
+        'field' => 'status_menikah',
+        'label' => 'Status Menikah',
+        'rules' => 'trim|required'
+      ),
+      array(
+        'field' => 'email',
+        'label' => 'Email',
+        'rules' => 'trim|required'
+      ),
+      array(
+        'field' => 'agama',
+        'label' => 'Agama',
+        'rules' => 'trim|required'
+      ),
     );
 
     $this->form_validation->set_message('required','%s tidak boleh kosong');
@@ -206,19 +272,53 @@ class Karyawan extends CI_Controller{
       return;
     }  
 
-    $updatekan = $this->karyawan->update_karyawan($post['id'],$data_edit);
+    if(empty($_FILES['foto']['name'])){
+      $updatekan = $this->karyawan->update_karyawan($post['id'],$data_edit);
 
-    if($updatekan){
-      $this->session->set_flashdata('success', 'Data berhasil Diedit');
-      $this->session->set_flashdata('key', 'success');
-      redirect('karyawan');
-      return;
-    } else{
-      $this->session->set_flashdata('danger', 'Data gagal Diedit');
+      if($updatekan){
+        $this->session->set_flashdata('success', 'Data berhasil Diedit');
+        $this->session->set_flashdata('key', 'success');
+        redirect('karyawan');
+        return;
+      } else{
+        $this->session->set_flashdata('danger', 'Data gagal Diedit');
+        $this->session->set_flashdata('key', 'danger');
+        redirect('karyawan');
+        return;
+      }  
+    }
+
+
+    if(file_exists(realpath(APPPATH . '../images/').'/'.$post['foto_lama'])){
+      unlink(realpath(APPPATH . '../images/').'/'.$post['foto_lama']);
+    }
+    
+    $config['file_name'] = uniqid();
+    $config['max_size'] = '2048';
+    $config['allowed_types'] = 'png|jpeg|jpg';
+    $config['upload_path'] = realpath(APPPATH . '../images/');
+    $this->load->library('upload',$config);
+
+    if(!$this->upload->do_upload('foto')){
+      $this->session->set_flashdata('danger', $this->upload->display_errors());
       $this->session->set_flashdata('key', 'danger');
       redirect('karyawan');
-      return;
-    }   
+    } else{ 
+      $data_edit['foto'] = $this->upload->data('file_name');
+      $updateyah = $this->karyawan->update_karyawan($post['id'],$data_edit);
+
+      if($updateyah){
+        $this->session->set_flashdata('success', 'Data berhasil Diedit');
+        $this->session->set_flashdata('key', 'success');
+        redirect('karyawan');
+        return;
+      } else{
+        $this->session->set_flashdata('danger', 'Data gagal Diedit');
+        $this->session->set_flashdata('key', 'danger');
+        redirect('karyawan');
+        return;
+      }        
+    }
 
   }
 
