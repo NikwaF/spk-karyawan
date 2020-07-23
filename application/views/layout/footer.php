@@ -36,7 +36,7 @@
                                     <li class="mb-2">
                                         <span class="text-bold-500 primary"><a><i class="icon-present font-small-3"></i> Tanggal Lahir:</a></span>
                                         <span class="display-block overflow-hidden tanggalnya">June 10th, 1988</span>
-                                    </li>M
+                                    </li>
                                     <li class="mb-2">
                                         <span class="text-bold-500 primary"><a><i class="ft-globe font-small-3"></i> Tempat Lahir:</a></span>
                                         <span class="display-block overflow-hidden lahirnya text-capitalize">Denver, USA</span>

@@ -30,6 +30,20 @@
 
 
               </div>
+
+              <div class="col-12">
+                <div class="card bg-white">
+                  <div class="card-body">
+                    <h5 style="color:#666EE8" class="text-center text-uppercase card-title mt-3">selamat datang ketua divisi <?= $divisi->nm_divisi ?></h5>
+
+
+                    <hr>
+                    <h3 class="text-center text-uppercase card-title">sistem pendukung keputusan penentuan rangking Karyawan</h3>
+                    <h3 class="text-center text-uppercase card-title mb-3">Metode simple multi attribute rating technique</h3>
+
+                  </div>
+                </div>
+              </div>
           </div>
             
           </div>

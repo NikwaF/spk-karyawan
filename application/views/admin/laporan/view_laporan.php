@@ -98,7 +98,7 @@
                     <?php $no=1; foreach($rangking as $rang): ?>
                       <tr>
                         <td><?= $no; ?></td>
-                        <td class="text-capitalize"><?= $rang['alternatif'] ?></td>
+                        <td class="text-capitalize"><a style="color:#1a0dab" class="diklik" data-nama="<?= $rang['alternatif'] ?>" data-kelamin="<?= $rang['jns_kelamin'] === 'l' ? 'Laki-laki' : 'Perempuan' ?>" data-alamat="<?= $rang['alamat'] ?>" data-tgl="<?= $rang['tgl_lahir'] ?>" data-tempat="<?= $rang['tempat_lahir'] ?>" data-agama="<?= $rang['agama'] ?>" data-foto="<?= $rang['foto'] ?>" data-nohp="<?= $rang['no_hp'] ?>" data-divisi="<?= $rang['divisi'] ?> " data-email="<?= $rang['email'] ?> " data-menikah="<?= $rang['status_menikah'] == '0' ? 'Belum Menikah' : 'Sudah Menikah' ?>"><?= $rang['alternatif'];?></a></td>
                         <td class="text-capitalize"><?= $rang['divisi'] ?></td>
                         <?php foreach($rang['nilai'] as $nilai): ?>
                           <td><?= $nilai['nilai'] ?></td>
@@ -119,6 +119,23 @@
 </section>
 
 <script>
+    const url = `<?= base_url(); ?>images/`;
+    $('.diklik').on('click', function(){
+        $('.fotonya').attr('src',`${url}${$(this).data('foto')}`);
+        $('.namanya').text($(this).data('nama'));
+        $('.divisinya').text($(this).data('divisi'));
+        $('.tanggalnya').text($(this).data('tgl'));
+        $('.agamanya').text($(this).data('agama'));
+        $('.emailnya').text($(this).data('email'));
+        $('.nohpnya').text($(this).data('nohp'));
+        $('.alamatnya').text($(this).data('alamat'));
+        $('.lahirnya').text($(this).data('tempat'));
+        $('.kelaminnya').text($(this).data('kelamin'));
+        $('.kawinnya').text($(this).data('menikah'));
+
+        $('#large').modal('show');
+    });  
+
     $('input[name="tahun-filter"],input[name="tahun"]').datepicker({
         orientation: "bottom",
         format: "yyyy",

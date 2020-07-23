@@ -95,6 +95,7 @@
                                     <th>#</th>
                                     <th>Nama Divisi</th>
                                     <th>Ketua Divisi</th>
+                                    <th>Username Ketua</th>
                                     <th>No Hp</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -106,6 +107,7 @@
                                     <th scope="row"><?= $no ?></th>
                                     <td class="text-capitalize"><?= $aktif->nm_divisi ?></td>
                                     <td class="text-capitalize"><?= $aktif->nama ?></td>
+                                    <td class="text-capitalize"><?= $aktif->username ?></td>
                                     <td><?= $aktif->nohp ?></td>
                                     <td><a href="<?= site_url('divisi/edit/').$aktif->id_divisi ?>" class="btn btn-sm btn-warning"><i class="icon-pencil"></i></a> <a href="<?= site_url('divisi/nonaktifkan/').$aktif->id_divisi ?>" class="btn btn-sm btn-danger"><i class="icon-lock"></i></a></td>
                                 </tr>
@@ -137,6 +139,7 @@
                                     <th>#</th>
                                     <th>Nama Divisi</th>
                                     <th>Ketua Divisi</th>
+                                    <th>Username Ketua</th>
                                     <th>No Hp Divisi</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -148,6 +151,7 @@
                                     <th scope="row"><?= $no ?></th>
                                     <td class="text-capitalize"><?= $nonaktif->nm_divisi ?></td>
                                     <td class="text-capitalize"><?= $nonaktif->nama ?></td>
+                                    <td class="text-capitalize"><?= $aktif->username ?></td>
                                     <td><?= $nonaktif->nohp ?></td>
                                     <td><a href="<?= site_url('divisi/aktifkan/').$nonaktif->id_divisi ?>" class="btn btn-sm btn-success"><i class="icon-lock-open"></i></a></td>
                                 </tr>
@@ -164,10 +168,6 @@
             </div> 
         </div>      
         </div>
-
-        <?php 
-            print_r($isinya);
-        ?>
 </section>
 <script>
     $('#tabel-aktif').DataTable({"pageLength": 5,"lengthMenu": [[5,10],[5,10]]});

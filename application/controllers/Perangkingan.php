@@ -108,13 +108,16 @@ class Perangkingan extends CI_Controller{
     $id_periode = $this->get_id_periode();
     
 
-    $sql_karyawan = "select id_karyawan,nama,divisi.nm_divisi from karyawan join divisi on divisi.id_divisi = karyawan.id_divisi where karyawan.status = 1";
+    $sql_karyawan = "select id_karyawan,nama,divisi.nm_divisi,email,agama,foto,jns_kelamin,no_hp,tgl_lahir,tempat_lahir,alamat,status_menikah from karyawan join divisi on divisi.id_divisi = karyawan.id_divisi where karyawan.status = 1";
     if($jenis !== null){
-      $sql_karyawan = "select id_karyawan,nama from karyawan where status = 1 AND id_divisi =".$_SESSION['id_divisi'];
+      $sql_karyawan = "select id_karyawan,nama,divisi.nm_divisi,email,agama,foto,jns_kelamin,no_hp,tgl_lahir,tempat_lahir,alamat,status_menikah from karyawan join divisi on divisi.id_divisi = karyawan.id_divisi where karyawan.status = 1 AND karyawan.id_divisi =".$_SESSION['id_divisi'];
     }
-    if($_SESSION['divisi'] !== 'semua'){
-      $sql_karyawan = "select id_karyawan,nama,divisi.nm_divisi from karyawan join divisi on divisi.id_divisi = karyawan.id_divisi where karyawan.status = 1 AND karyawan.id_divisi =".$_SESSION['divisi'];
-     }
+
+    if(isset($_SESSION['divisi'])){
+      if($_SESSION['divisi'] !== 'semua'){
+        $sql_karyawan = "select id_karyawan,nama,divisi.nm_divisi,email,agama,foto,jns_kelamin,no_hp,tgl_lahir,tempat_lahir,alamat,status_menikah from karyawan join divisi on divisi.id_divisi = karyawan.id_divisi where karyawan.status = 1 AND karyawan.id_divisi =".$_SESSION['divisi'];
+      }
+    }
 
     $exec_karyawan = $this->db->query($sql_karyawan)->result();
     $sql_kriteria = "select id_kriteria,nm_kriteria,bobot from kriteria where status = 1 AND id_periode=".$id_periode;
@@ -154,6 +157,17 @@ class Perangkingan extends CI_Controller{
       if($ada_gak === 'ada'){
         $nilai_utility[$i]['id_alternatif'] = $exec_karyawan[$i]->id_karyawan;
         $nilai_utility[$i]['alternatif'] = $exec_karyawan[$i]->nama;
+        $nilai_utility[$i]['agama'] = $exec_karyawan[$i]->agama;
+        $nilai_utility[$i]['jns_kelamin'] = $exec_karyawan[$i]->jns_kelamin;
+        $nilai_utility[$i]['email'] = $exec_karyawan[$i]->email;
+        $nilai_utility[$i]['no_hp'] = $exec_karyawan[$i]->no_hp;
+        $nilai_utility[$i]['foto'] = $exec_karyawan[$i]->foto;
+        $nilai_utility[$i]['tgl_lahir'] = tgl_indo($exec_karyawan[$i]->tgl_lahir);
+        $nilai_utility[$i]['tempat_lahir'] = $exec_karyawan[$i]->tempat_lahir;
+        $nilai_utility[$i]['alamat'] = $exec_karyawan[$i]->alamat;
+        $nilai_utility[$i]['status_menikah'] = $exec_karyawan[$i]->status_menikah;
+        $nilai_utility[$i]['divisi'] = $exec_karyawan[$i]->nm_divisi;
+
         if($jenis === null){
           $nilai_utility[$i]['divisi'] = $exec_karyawan[$i]->nm_divisi;
         }
