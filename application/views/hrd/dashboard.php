@@ -21,8 +21,8 @@
                   <div class="card-block pt-2 pb-0 mb-2">
                     <div class="media">
                       <div class="media-body white text-left">
-                        <h4 class="font-medium-5 card-title mb-0"><?= $divisi->total ?></h4>
-                        <span class="grey darken-1">Divisi <?= $divisi->nama ?></span>
+                        <h4 class="font-medium-5 card-title mb-0"><?= $divisi['total'] ?></h4>
+                        <span class="grey darken-1">Divisi <?= $divisi['nm_divisi'] ?></span>
                       </div>
                       <div class="media-right text-right">
                         <i class="icon-user font-large-1 primary"></i>

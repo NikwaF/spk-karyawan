@@ -55,10 +55,31 @@ class Dashboard extends CI_Controller{
 
   private function total_karyawan()
   {
-    $sql = "select divisi.nm_divisi nama, count(karyawan.id_karyawan) total from divisi join karyawan on divisi.id_divisi = karyawan.id_divisi where divisi.status = 1 AND karyawan.status = 1 group by divisi.id_divisi";
+    $sql_divisi = "select id_divisi,nm_divisi from divisi where status=1";
+    $exec_divisi = $this->db->query($sql_divisi)->result();
+    
+    
+    if(count($exec_divisi) > 0){
+      $hasil = [];
+      
+      foreach ($exec_divisi as $val) {
+        $sql_total = "select count(id_karyawan) total from karyawan where status = 1 AND id_divisi = ".$val->id_divisi;
+        $exec_total = $this->db->query($sql_total)->row();
+        
+        $brow = ['nm_divisi' => $val->nm_divisi, 'total' => $exec_total->total];
+        
+        array_push($hasil,$brow);
+      }
 
-    $query = $this->db->query($sql)->result();
-    return $query;
+      return $hasil;
+      
+      
+      
+    } else{ 
+      return [];
+    }
+
+
   }
 
 } 
